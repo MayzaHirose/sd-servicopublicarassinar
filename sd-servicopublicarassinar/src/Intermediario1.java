@@ -17,7 +17,7 @@ public class Intermediario1 {
     public Intermediario1() {
         try {
             IIntermediario2 inter2 = (IIntermediario2) Naming.lookup("//127.0.0.1:1099/Intermediario2Service");
-            IIntermediario1 inter1 = new Intermediario1Impl();
+            IIntermediario1 inter1 = new Intermediario1Impl(inter2);
             Naming.rebind("//127.0.0.1:1099/Intermediario1Service", inter1);  
         } catch (Exception e) {
             System.out.println("Trouble: " + e);

@@ -8,13 +8,13 @@
  *
  * @author mayza
  */
-public enum Topicos {
-    TOPICO_1("Topico 1"), TOPICO_2("Topico 2"), TOPICO_3("Topico 3"), TOPICO_4("Topico 4"), TOPICO_5("Topico 5");
+public enum Assinantes {
+    ASSINANTE_1("Assinante 1"), ASSINANTE_2("Assinante 2"), ASSINANTE_3("Assinante 3");
     
     private final String nome;
     
-    Topicos(String nomeTopico){
-        nome = nomeTopico;
+    Assinantes(String nomeAssinante){
+        nome = nomeAssinante;
     }
     
     public String getNome(){

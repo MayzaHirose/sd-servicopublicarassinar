@@ -10,14 +10,17 @@
  */
 public interface IIntermediario3 extends java.rmi.Remote {
     
-    public boolean subscribe(Topicos topico)
+    public boolean subscribe(Topicos topico, Assinantes assinante)
             throws java.rmi.RemoteException;
     
-    public boolean unsubscribe(Topicos topico)
+    public boolean unsubscribe(Topicos topico, Assinantes assinante)
+            throws java.rmi.RemoteException;
+    
+    public boolean publish(Topicos topico)
             throws java.rmi.RemoteException;
     
     //para notificar que uma nova publicacao chegou do I2 
-    public boolean publishAlert(Topicos topico)
+    public boolean publishAlert(Topicos topico, boolean repassado)
             throws java.rmi.RemoteException;
     
 }

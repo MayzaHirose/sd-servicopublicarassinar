@@ -20,7 +20,8 @@ public class Assinante3Impl extends java.rmi.server.UnicastRemoteObject implemen
 
     @Override
     public boolean notify(String conteudo) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println(conteudo);
+        return true;
     }
     
 }

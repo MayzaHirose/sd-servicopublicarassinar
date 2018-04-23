@@ -13,14 +13,18 @@ import java.rmi.RemoteException;
  */
 public class Intermediario1Impl extends java.rmi.server.UnicastRemoteObject implements IIntermediario1 {
     
-    public Intermediario1Impl()
+    private IIntermediario2 inter2;
+    
+    public Intermediario1Impl(IIntermediario2 inter2)
             throws java.rmi.RemoteException {
             super();
+            this.inter2 = inter2;
     }
 
     @Override
     public boolean publish(Topicos topico) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        inter2.publishAlert(topico, false);
+        return true;
     }
     
 }

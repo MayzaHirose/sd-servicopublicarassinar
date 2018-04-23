@@ -1,5 +1,9 @@
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,24 +17,58 @@ import java.rmi.RemoteException;
  */
 public class Intermediario3Impl extends java.rmi.server.UnicastRemoteObject implements IIntermediario3 {
     
-    public Intermediario3Impl()
+    private static Map<Topicos, List<Assinantes>> inscritos = new HashMap<>();
+    private IAssinante3 assinante3;
+    private IIntermediario2 inter2;
+    
+    public Intermediario3Impl(IAssinante3 a3, IIntermediario2 i2)
             throws java.rmi.RemoteException {
             super();
+            for(Topicos topico: Topicos.values()){
+                inscritos.put(topico, new ArrayList<>());
+            }
+            this.assinante3 = a3;
+            this.inter2 = i2;
     }
 
     @Override
-    public boolean subscribe(Topicos topico) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean subscribe(Topicos topico, Assinantes assinante) throws RemoteException {
+        List temp = inscritos.get(topico);
+        if(!temp.contains(assinante)){
+            temp.add(assinante);
+            inscritos.put(topico, temp);
+            return true;
+        }      
+        return false;
     }
 
     @Override
-    public boolean unsubscribe(Topicos topico) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean publishAlert(Topicos topico) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean unsubscribe(Topicos topico, Assinantes assinante) throws RemoteException {
+        List temp = inscritos.get(topico);
+        if(temp.contains(assinante)){
+            temp.remove(assinante);
+            inscritos.put(topico, temp);
+            return true;
+        } 
+        return false; 
     }
     
+    @Override
+    public boolean publish(Topicos topico) throws RemoteException {       
+        return publishAlert(topico, false);
+    }
+    
+    @Override
+    public boolean publishAlert(Topicos topico, boolean repassado) throws RemoteException {
+        List<Assinantes> temp = inscritos.get(topico);
+        for(Assinantes a: temp){
+            if(a.equals(Assinantes.ASSINANTE_3)){
+                this.assinante3.notify("CONTEUDO DO TOPICO: " + topico.getNome());
+            } else if(!repassado){
+                this.inter2.publishAlert(topico, true);
+            }
+        }
+        return true;
+    }
+   
 }
