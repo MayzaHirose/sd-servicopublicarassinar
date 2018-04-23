@@ -1,4 +1,5 @@
 
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,14 +22,12 @@ public class Intermediario3Impl extends java.rmi.server.UnicastRemoteObject impl
     private IAssinante3 assinante3;
     private IIntermediario2 inter2;
     
-    public Intermediario3Impl(IAssinante3 a3, IIntermediario2 i2)
+    public Intermediario3Impl()
             throws java.rmi.RemoteException {
             super();
             for(Topicos topico: Topicos.values()){
                 inscritos.put(topico, new ArrayList<>());
             }
-            this.assinante3 = a3;
-            this.inter2 = i2;
     }
 
     @Override
@@ -60,13 +59,20 @@ public class Intermediario3Impl extends java.rmi.server.UnicastRemoteObject impl
     
     @Override
     public boolean publishAlert(Topicos topico, boolean repassado) throws RemoteException {
+        try {
+            assinante3 = (IAssinante3) Naming.lookup("//127.0.0.1:1099/Assinante3Service");
+            inter2 = (IIntermediario2) Naming.lookup("//127.0.0.1:1099/Intermediario2Service");
+        } catch (Exception e) {
+            System.out.println("Trouble: " + e);
+        }
         List<Assinantes> temp = inscritos.get(topico);
         for(Assinantes a: temp){
             if(a.equals(Assinantes.ASSINANTE_3)){
                 this.assinante3.notify("CONTEUDO DO TOPICO: " + topico.getNome());
-            } else if(!repassado){
-                this.inter2.publishAlert(topico, true);
-            }
+            } 
+        }
+        if(!repassado){
+            this.inter2.publishAlert(topico, true);
         }
         return true;
     }

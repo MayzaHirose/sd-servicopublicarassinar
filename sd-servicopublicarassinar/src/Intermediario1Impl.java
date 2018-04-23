@@ -1,4 +1,5 @@
 
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 /*
@@ -15,14 +16,18 @@ public class Intermediario1Impl extends java.rmi.server.UnicastRemoteObject impl
     
     private IIntermediario2 inter2;
     
-    public Intermediario1Impl(IIntermediario2 inter2)
+    public Intermediario1Impl()
             throws java.rmi.RemoteException {
             super();
-            this.inter2 = inter2;
     }
 
     @Override
     public boolean publish(Topicos topico) throws RemoteException {
+        try {
+            inter2 = (IIntermediario2) Naming.lookup("//127.0.0.1:1099/Intermediario2Service"); 
+        } catch (Exception e) {
+            System.out.println("Trouble: " + e);
+        }
         inter2.publishAlert(topico, false);
         return true;
     }
