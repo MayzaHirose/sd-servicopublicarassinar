@@ -28,6 +28,7 @@ public class Intermediario1Impl extends java.rmi.server.UnicastRemoteObject impl
         } catch (Exception e) {
             System.out.println("Trouble: " + e);
         }
+        System.out.println("Nova publicacao recebida! Sera repassada para o Intermediario 2.");
         inter2.publishAlert(topico, false);
         return true;
     }

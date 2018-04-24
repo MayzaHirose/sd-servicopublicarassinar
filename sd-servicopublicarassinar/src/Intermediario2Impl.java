@@ -55,6 +55,7 @@ public class Intermediario2Impl extends java.rmi.server.UnicastRemoteObject impl
 
     @Override
     public boolean publishAlert(Topicos topico, boolean repassado) throws RemoteException {
+        System.out.println("Nova publicacao recebida!");
         try {
             assinante1 = (IAssinante1) Naming.lookup("//127.0.0.1:1099/Assinante1Service");
             assinante2 = (IAssinante2) Naming.lookup("//127.0.0.1:1099/Assinante2Service");
@@ -65,12 +66,15 @@ public class Intermediario2Impl extends java.rmi.server.UnicastRemoteObject impl
         List<Assinantes> temp = inscritos.get(topico);
         for(Assinantes a: temp){
             if(a.equals(Assinantes.ASSINANTE_1)){
+                System.out.println("Notificando o Assinante 1");
                 this.assinante1.notify("CONTEUDO DO TOPICO: " + topico.getNome());
             } else if(a.equals(Assinantes.ASSINANTE_2)) {
+                System.out.println("Notificando o Assinante 2");
                 this.assinante2.notify("CONTEUDO DO TOPICO: " + topico.getNome());
             } 
         }
         if(!repassado){
+            System.out.println("Repassando para Intermediario 3");
             this.inter3.publishAlert(topico, true);
         }
         return true;
