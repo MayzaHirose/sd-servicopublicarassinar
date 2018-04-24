@@ -32,23 +32,33 @@ public class Intermediario3Impl extends java.rmi.server.UnicastRemoteObject impl
 
     @Override
     public boolean subscribe(Topicos topico, Assinantes assinante) throws RemoteException {
+        System.out.println("Recebendo solicitacao de assinatura do " + assinante.getNome()  + " para o " + topico.getNome());
         List temp = inscritos.get(topico);
         if(!temp.contains(assinante)){
             temp.add(assinante);
             inscritos.put(topico, temp);
+            System.out.println("O " + assinante.getNome() + " foi inscrito");
+            System.out.println("--------------------------");
             return true;
         }      
+        System.out.println("O " + assinante.getNome() + " ja estava inscrito");
+        System.out.println("--------------------------");
         return false;
     }
 
     @Override
     public boolean unsubscribe(Topicos topico, Assinantes assinante) throws RemoteException {
+        System.out.println("Recebendo solicitacao de cancelamento do " + assinante.getNome() + " para o " + topico.getNome());
         List temp = inscritos.get(topico);
         if(temp.contains(assinante)){
             temp.remove(assinante);
             inscritos.put(topico, temp);
+            System.out.println("O " + assinante.getNome() + " foi cancelado");
+            System.out.println("--------------------------");
             return true;
         } 
+        System.out.println("O " + assinante.getNome() + " nao estava inscrito");
+        System.out.println("--------------------------");
         return false; 
     }
     
@@ -59,7 +69,7 @@ public class Intermediario3Impl extends java.rmi.server.UnicastRemoteObject impl
     
     @Override
     public boolean publishAlert(Topicos topico, boolean repassado) throws RemoteException {
-        System.out.println("Nova publicacao recebida!");
+        System.out.println("Nova publicacao recebida do " + topico.getNome());
         try {
             assinante3 = (IAssinante3) Naming.lookup("//127.0.0.1:1099/Assinante3Service");
             inter2 = (IIntermediario2) Naming.lookup("//127.0.0.1:1099/Intermediario2Service");
@@ -67,6 +77,9 @@ public class Intermediario3Impl extends java.rmi.server.UnicastRemoteObject impl
             System.out.println("Trouble: " + e);
         }
         List<Assinantes> temp = inscritos.get(topico);
+        if(temp.size() == 0){
+            System.out.println("Nao ha inscritos para o " + topico.getNome() + " aqui.");
+        }
         for(Assinantes a: temp){
             if(a.equals(Assinantes.ASSINANTE_3)){
                 System.out.println("Notificando o Assinante 3");
@@ -77,6 +90,7 @@ public class Intermediario3Impl extends java.rmi.server.UnicastRemoteObject impl
             System.out.println("Repassando para Intermediario 2");
             this.inter2.publishAlert(topico, true);
         }
+        System.out.println("--------------------------");
         return true;
     }
    
