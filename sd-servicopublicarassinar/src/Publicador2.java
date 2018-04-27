@@ -26,11 +26,11 @@ public class Publicador2 {
                 System.out.println("-------------------------------------");
                 System.out.println("-        TOPICOS PARA ENVIAR        -");
                 System.out.println("-------------------------------------\n\n");
-                System.out.println("1 - " + Topicos.TOPICO_1 + "\n");
-                System.out.println("2 - " + Topicos.TOPICO_2 + "\n");
-                System.out.println("3 - " + Topicos.TOPICO_3 + "\n");
-                System.out.println("4 - " + Topicos.TOPICO_4 + "\n");
-                System.out.println("5 - " + Topicos.TOPICO_5 + "\n");
+                System.out.println("1 - " + Topicos.TOPICO_1);
+                System.out.println("2 - " + Topicos.TOPICO_2);
+                System.out.println("3 - " + Topicos.TOPICO_3);
+                System.out.println("4 - " + Topicos.TOPICO_4);
+                System.out.println("5 - " + Topicos.TOPICO_5);
                 Scanner entrada = new Scanner(System.in);
                 topico = entrada.nextInt();
                

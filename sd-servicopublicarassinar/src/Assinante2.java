@@ -28,16 +28,16 @@ public class Assinante2 {
             while(conectado) {
                 System.out.println("-------------------------------------");
                 System.out.println("-              TOPICOS              -");
-                System.out.println("-------------------------------------\n\n");
-                System.out.println("1 - " + Topicos.TOPICO_1 + "\n");
-                System.out.println("2 - " + Topicos.TOPICO_2 + "\n");
-                System.out.println("3 - " + Topicos.TOPICO_3 + "\n");
-                System.out.println("4 - " + Topicos.TOPICO_4 + "\n");
-                System.out.println("5 - " + Topicos.TOPICO_5 + "\n");
+                System.out.println("-------------------------------------\n");
+                System.out.println("1 - " + Topicos.TOPICO_1);
+                System.out.println("2 - " + Topicos.TOPICO_2);
+                System.out.println("3 - " + Topicos.TOPICO_3);
+                System.out.println("4 - " + Topicos.TOPICO_4);
+                System.out.println("5 - " + Topicos.TOPICO_5);
                 Scanner entrada = new Scanner(System.in);
                 topico = entrada.nextInt();
-                
-                System.out.println("\n\n1 - Subscribe\n");
+               
+                System.out.println("\n1 - Subscribe\n");
                 System.out.println("2 - Unsubscribe\n");
                 acao = entrada.nextInt();
                 switch(topico){
@@ -87,7 +87,7 @@ public class Assinante2 {
                     if(acao == 1) {
                         System.out.println("Você ja esta inscrito neste topico.");
                     } else {
-                        System.out.println("Nao foi possivel cancelar a inscricao.");
+                        System.out.println("Voce nao esta inscrito neste topico.");
                     }
                 }
             }
