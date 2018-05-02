@@ -31,7 +31,7 @@ public class Intermediario1Impl extends java.rmi.server.UnicastRemoteObject impl
 
     @Override
     public boolean publish(Topicos topico) throws RemoteException {
-        System.out.println("Nova publicacao recebida do " + topico.getNome());
+        System.out.println("Nova publicacao recebida do Publicador 1 sobre o " + topico.getNome());
         try {
             inter2 = (IIntermediario2) Naming.lookup("//127.0.0.1:1099/Intermediario2Service"); 
         } catch (Exception e) {
@@ -48,7 +48,7 @@ public class Intermediario1Impl extends java.rmi.server.UnicastRemoteObject impl
             System.out.println("--------------------------");
             return true;
         }
-        System.out.println("Nao ha interessados no " + topico.getNome());
+        System.out.println("Nao ha interessados no " + topico.getNome() + ". Nenhum intermediario sera notificado");
         return true;
     }
     
@@ -57,6 +57,7 @@ public class Intermediario1Impl extends java.rmi.server.UnicastRemoteObject impl
         System.out.println("Recebendo Inscricao do " + inter_interessado.getNome() + " para o " + topico.getNome());
         List<Intermediarios> temp = tabelaRoteamento.get(topico);
         temp.add(inter_interessado);
+        tabelaRoteamento.put(topico, temp);
         return true;
     }
 
@@ -64,8 +65,8 @@ public class Intermediario1Impl extends java.rmi.server.UnicastRemoteObject impl
     public boolean unsubscribeAlert(Topicos topico, Intermediarios inter_interessado) throws RemoteException {
         List<Intermediarios> temp = tabelaRoteamento.get(topico);
         temp.remove(inter_interessado);
+        tabelaRoteamento.put(topico, temp);
         return true;
     }
-    
-    
+       
 }

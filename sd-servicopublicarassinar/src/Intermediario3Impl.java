@@ -71,7 +71,11 @@ public class Intermediario3Impl extends java.rmi.server.UnicastRemoteObject impl
     
     @Override
     public boolean publishAlert(Topicos topico, boolean veioDoInter2) throws RemoteException {
-        System.out.println("Nova publicacao recebida do " + topico.getNome());
+        if(veioDoInter2){
+            System.out.println("Nova publicacao recebida do Intermediario 2 sobre o " + topico.getNome());
+        } else {
+            System.out.println("Nova publicacao recebida do Publicador 3 sobre o " + topico.getNome());
+        }
         try {           
             assinante3 = (IAssinante3) Naming.lookup("//127.0.0.1:1099/Assinante3Service");
             inter2 = (IIntermediario2) Naming.lookup("//127.0.0.1:1099/Intermediario2Service");
@@ -84,7 +88,7 @@ public class Intermediario3Impl extends java.rmi.server.UnicastRemoteObject impl
             if(a.equals(Assinantes.ASSINANTE_3)){
                 System.out.println("O " + a.getNome() + " tem interesse no " + topico.getNome());
                 System.out.println("Notificando o " + a.getNome());
-                this.assinante3.notify("CONTEUDO DO TOPICO: " + topico.getNome());
+                this.assinante3.notify("NOVA NOTIFICACAO: " + topico.getNome());
             } 
         }
         //se nao veio do inter 2
@@ -94,6 +98,8 @@ public class Intermediario3Impl extends java.rmi.server.UnicastRemoteObject impl
                 System.out.println("O intermediario 2 tem interesse no " + topico.getNome());
                 System.out.println("Repassando para o Intermediario 2");
                 this.inter2.publishAlert(topico, true);
+            } else {
+                System.out.println("Nao ha interessados no " + topico.getNome() + ". Nenhum intermediario sera notificado");
             }
         }
         System.out.println("--------------------------");
@@ -118,6 +124,7 @@ public class Intermediario3Impl extends java.rmi.server.UnicastRemoteObject impl
         System.out.println("Recebendo Inscricao do " + inter_interessado.getNome() + " para o " + topico.getNome());
         List<Intermediarios> temp = tabelaRoteamento.get(topico);
         temp.add(inter_interessado);
+        tabelaRoteamento.put(topico, temp);
         return true;
     }
 
