@@ -38,23 +38,25 @@ public class Intermediario1Impl extends java.rmi.server.UnicastRemoteObject impl
             System.out.println("Trouble: " + e);
             return false;
         }
-        List<Intermediarios> temp = tabelaRoteamento.get(topico);
-        if(!temp.isEmpty()){
-            for(Intermediarios i: temp){
-                System.out.println("O " + i.getNome() + " tem interesse no " + topico.getNome());
-                System.out.println("Repassando para o " + i.getNome());
-            }
+        List<Intermediarios> inscritos = tabelaRoteamento.get(topico);
+        if(!inscritos.isEmpty()){
+            //for(Intermediarios i: inscritos){
+                System.out.println("O intermediario 2 tem interesse no " + topico.getNome());
+                System.out.println("Repassando para o intermediario 2");
+                System.out.println("--------------------------");
+            //}
             inter2.publishAlert(topico, false);
-            System.out.println("--------------------------");
             return true;
         }
         System.out.println("Nao ha interessados no " + topico.getNome() + ". Nenhum intermediario sera notificado");
+        System.out.println("--------------------------");
         return true;
     }
     
     @Override
     public boolean setSubscriber(Topicos topico, Intermediarios inter_interessado){
         System.out.println("Recebendo Inscricao do " + inter_interessado.getNome() + " para o " + topico.getNome());
+        System.out.println("--------------------------");
         List<Intermediarios> temp = tabelaRoteamento.get(topico);
         temp.add(inter_interessado);
         tabelaRoteamento.put(topico, temp);
@@ -68,5 +70,16 @@ public class Intermediario1Impl extends java.rmi.server.UnicastRemoteObject impl
         tabelaRoteamento.put(topico, temp);
         return true;
     }
+    
+    @Override
+    public boolean setUnsubscriber(Topicos topico, Intermediarios inter_interessado){
+        System.out.println("Recebendo cancelamento do " + inter_interessado.getNome() + " para o " + topico.getNome());
+        System.out.println("--------------------------");
+        List<Intermediarios> temp = tabelaRoteamento.get(topico);
+        temp.remove(inter_interessado);
+        tabelaRoteamento.put(topico, temp);
+        return true;
+    }
+
        
 }

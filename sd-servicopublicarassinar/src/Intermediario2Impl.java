@@ -147,11 +147,26 @@ public class Intermediario2Impl extends java.rmi.server.UnicastRemoteObject impl
         } catch (Exception e) {
             System.out.println("Trouble: " + e);
         }
-        if(!veioDoInter3){
-            inter1.unsubscribeAlert(topico, inter_2);
-            inter3.unsubscribeAlert(topico, inter_2, true);
-        }
+        inter1.setUnsubscriber(topico, Intermediarios.INTER_2);
+        inter3.setUnsubscriber(topico, Intermediarios.INTER_2);
         System.out.println("--------------------------");
+        return true;
+    }
+    
+    @Override
+    public boolean setUnsubscriber(Topicos topico, Intermediarios inter_interessado) throws RemoteException{
+        System.out.println("Recebendo cancelamento do " + inter_interessado.getNome() + " para o " + topico.getNome());
+        List<Intermediarios> temp = tabelaRoteamento.get(topico);
+        temp.remove(inter_interessado);
+        tabelaRoteamento.put(topico, temp);
+        try {
+            inter1 = (IIntermediario1) Naming.lookup("//127.0.0.1:1099/Intermediario1Service");
+        } catch (Exception e) {
+            System.out.println("Trouble: " + e);
+            return false;
+        }
+        System.out.println("Repassando o cancelamento para o I1");
+        inter1.setUnsubscriber(topico, Intermediarios.INTER_2);
         return true;
     }
     

@@ -28,6 +28,9 @@ public interface IIntermediario2 extends java.rmi.Remote {
     public boolean setSubscriber(Topicos topico, Intermediarios inter_interessado)
             throws java.rmi.RemoteException;
     
+    public boolean setUnsubscriber(Topicos topico, Intermediarios inter_interessado)
+            throws java.rmi.RemoteException;
+    
     public boolean unsubscribeAlert(Topicos topico, Intermediarios inter_interessado, boolean veioDoInter3)
             throws java.rmi.RemoteException;
     

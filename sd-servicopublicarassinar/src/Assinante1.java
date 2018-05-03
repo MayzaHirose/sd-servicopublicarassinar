@@ -16,7 +16,7 @@ public class Assinante1 {
     
     private boolean conectado = true;
     private int topico;
-    private int acao;
+    private int acao = 1;
     private boolean retorno;
     
     public Assinante1() {
@@ -36,9 +36,9 @@ public class Assinante1 {
                 Scanner entrada = new Scanner(System.in);
                 topico = entrada.nextInt();
                
-                System.out.println("\n1 - Subscribe\n");
-                System.out.println("2 - Unsubscribe\n");
-                acao = entrada.nextInt();
+                //System.out.println("\n1 - Subscribe\n");
+                //System.out.println("2 - Unsubscribe\n");
+                //acao = entrada.nextInt();
                 switch(topico){
                     case 1:
                         if(acao == 1) {
